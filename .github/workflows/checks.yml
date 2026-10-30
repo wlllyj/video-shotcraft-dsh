@@ -1,0 +1,28 @@
+name: Checks
+
+# DSH 打包层专用校验。
+# 上游的 .github/workflows/pr-checks.yml 已经覆盖了 gallery 生成物漂移与 demo 的
+# tsc 严格编译，这里不再重复——否则每个 PR 会把同样的脚本和 npm ci 跑两遍。
+# 本文件只补 pr-checks.yml 没有的部分：Python 打包管理器的单测与打包完整性。
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m compileall -q scripts tests gallery
+      - run: python -m unittest discover -s tests -v
+      # --skip-runtime：干净 runner 上没有 npm/npx，doctor 会因此 exit 1。
+      # 这里只校验打包完整性（frontmatter、body <8192、所有权标记），不校验运行环境。
+      - run: python scripts/dsh_manager.py doctor --source-only --skip-runtime

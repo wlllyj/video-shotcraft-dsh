@@ -1,0 +1,12 @@
+{
+  "schema": "dsh-skill-package/v1",
+  "name": "video-shotcraft",
+  "version": "1.0.0-dsh.1",
+  "description": "Cinematic product-video skill package for DeepSeek Harness.",
+  "target": "$DSH_HOME/skills/video-shotcraft",
+  "runtime": {
+    "python": "3.10",
+    "commands": ["node", "npm", "npx"],
+    "optional_python_modules": ["pyJianYingDraft"]
+  }
+}

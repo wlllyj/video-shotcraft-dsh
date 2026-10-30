@@ -113,6 +113,31 @@ ln -s "$(pwd)" ~/.codex/skills/video-shotcraft    # Codex
 国内访问 GitHub 慢的话，可以从 AtomGit 镜像克隆：
 `git clone https://atomgit.com/VincentWei/video-shotcraft.git`。
 
+## DeepSeek Harness
+
+本仓库同时以 DSH 原生 filesystem skill 的形式发布。安装器会把整套镜头库、Remotion 组件、模板、
+音频资产和动效工作台复制到 `~/.dsh/skills/video-shotcraft`，DSH 在下一轮对话就会扫描到它，无需重启。
+
+Windows PowerShell：
+
+```powershell
+git clone https://github.com/wlllyj/video-shotcraft-dsh.git
+cd video-shotcraft-dsh
+.\install-dsh.ps1
+```
+
+macOS / Linux：
+
+```bash
+git clone https://github.com/wlllyj/video-shotcraft-dsh.git
+cd video-shotcraft-dsh
+bash install-dsh.sh
+```
+
+安装后运行 `python scripts/dsh_manager.py doctor` 验证。前置条件、更新与卸载，以及塑造了本包结构的
+DSH 限制（SKILL.md body 必须控制在 8192 字符以内、skill 扫描只认一层深、没有 `{skill_dir}` 占位符
+替换）见 [DeepSeek Harness 使用指南](docs/deepseek-harness.md)。
+
 ## 使用
 
 直接描述你想要的片子就行，不需要命令。

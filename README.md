@@ -117,6 +117,33 @@ ln -s "$(pwd)" ~/.codex/skills/video-shotcraft    # Codex
 In mainland China, clone from the AtomGit mirror if GitHub is slow:
 `git clone https://atomgit.com/VincentWei/video-shotcraft.git`.
 
+## DeepSeek Harness
+
+This repo also ships as a native DeepSeek Harness filesystem skill. The installer copies the whole
+shot library, Remotion components, template, audio assets and workbench into
+`~/.dsh/skills/video-shotcraft`; DSH picks it up on the next turn, no restart needed.
+
+Windows PowerShell:
+
+```powershell
+git clone https://github.com/wlllyj/video-shotcraft-dsh.git
+cd video-shotcraft-dsh
+.\install-dsh.ps1
+```
+
+macOS / Linux:
+
+```bash
+git clone https://github.com/wlllyj/video-shotcraft-dsh.git
+cd video-shotcraft-dsh
+bash install-dsh.sh
+```
+
+Run `python scripts/dsh_manager.py doctor` to verify the install. See the
+[DeepSeek Harness guide](docs/deepseek-harness.md) for prerequisites, update and uninstall, and the
+DSH-specific limits that shape this package: SKILL.md bodies must stay under 8192 characters, skill
+discovery is one level deep, and there is no `{skill_dir}` placeholder substitution.
+
 ## Use
 
 Just describe the film. No command needed.

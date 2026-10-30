@@ -1,0 +1,13 @@
+video-shotcraft
+Copyright 2026 Wei Yihao
+
+Licensed under the Apache License, Version 2.0.
+
+This distribution includes DeepSeek Harness packaging, installation, continuous
+integration, and documentation changes: the DSH skill manifest
+(dsh/manifest.json), the install / doctor / uninstall manager
+(scripts/dsh_manager.py), the packaging tests (tests/test_dsh_package.py), the
+install-dsh.ps1 and install-dsh.sh entry points, the Checks workflow
+(.github/workflows/checks.yml), and the DeepSeek Harness guide
+(docs/deepseek-harness.md). Third-party audio and source attributions remain in
+assets/audio/ATTRIBUTION.md and references/shots/ATTRIBUTION.md.

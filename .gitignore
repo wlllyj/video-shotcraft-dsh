@@ -34,3 +34,5 @@ PRODUCT.md
 /shot-polish/after-v1/
 /shot-polish/final/
 /shot-polish/_work/
+# DSH 安装标记（由 dsh_manager.py 写入安装副本，不入库）
+.dsh-package.json
