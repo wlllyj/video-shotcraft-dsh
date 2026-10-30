@@ -449,6 +449,34 @@ class RepositoryConsistencyTests(unittest.TestCase):
         self.assertIn("remotion", package["dependencies"])
         self.assertIn("render", package["scripts"])
 
+    def test_shell_entrypoints_are_executable(self):
+        """所有 .sh 都必须带可执行位和 shebang，否则 ./install-dsh.sh 会 Permission denied。
+
+        仓库既有约定是 .sh 一律 100755（gallery/fetch-media.sh、shot-polish/tsc-demos.sh），
+        新增的 install-dsh.sh 曾经漏成 100644。Windows 上 core.filemode=false，磁盘 chmod
+        不会被 git 记录，只有索引里的 mode 算数，所以查索引而不是查文件系统权限位。
+        """
+        if not (ROOT / ".git").exists():
+            self.skipTest("不在 git 工作树中，跳过索引 mode 校验")
+        result = subprocess.run(
+            ["git", "ls-files", "-s", "*.sh"],
+            cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+        )
+        if result.returncode != 0:
+            self.skipTest(f"git 不可用：{result.stderr.strip()}")
+
+        entries = [line for line in result.stdout.splitlines() if line.strip()]
+        self.assertTrue(entries, "仓库里一个 .sh 都没匹配到，检查 glob 是否失效")
+        for line in entries:
+            meta, path = line.split("\t")
+            mode = meta.split()[0]
+            self.assertEqual(mode, "100755", f"{path} 的索引 mode 是 {mode}，应为 100755")
+            first_line = (ROOT / path).read_text(encoding="utf-8").split("\n", 1)[0]
+            self.assertTrue(
+                first_line.startswith("#!"),
+                f"{path} 缺 shebang，可执行位对直接运行没有意义",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
